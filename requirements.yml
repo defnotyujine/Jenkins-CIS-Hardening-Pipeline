@@ -1,0 +1,15 @@
+roles:
+  - name: RHEL8-CIS
+    src: https://github.com/ansible-lockdown/RHEL8-CIS.git
+    scm: git
+    version: main
+
+  - name: RHEL9-CIS
+    src: https://github.com/ansible-lockdown/RHEL9-CIS.git
+    scm: git
+    version: main
+
+  - name: RHEL10-CIS
+    src: https://github.com/ansible-lockdown/RHEL10-CIS.git
+    scm: git
+    version: main
