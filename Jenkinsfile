@@ -8,6 +8,16 @@ pipeline {
     }
 
     stages {
+        stage('Validate Parameters') {
+            steps {
+                script {
+                    if (params.TARGET_IP == '') {
+                        error('TARGET_IP is required. Please provide the IP of the target server.')
+                    }
+                }
+            }
+        }
+
         stage('Install Collections') {
             steps {
                 sh 'ansible-galaxy collection install -r requirements.yml'
@@ -45,7 +55,7 @@ EOF
                     ansiblePlaybook(
                         playbook: 'playbooks/main_playbook.yml',
                         inventory: 'sysconfig/inventory.yml',
-                        extras: '--vault-password-file /tmp/vault_pass.txt --tags "${params.TAGS}"'
+                        extras: "--vault-password-file /tmp/vault_pass.txt --tags \"${params.TAGS}\""
                     )
                 }
             }
