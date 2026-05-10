@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     if (params.TARGET_IP == '') {
-                        error('TARGET_IP is required. Please provide the IP of the target server.')
+                        error('TARGET_IP is required. Please provide at least on IP.')
                     }
                 }
             }
@@ -32,14 +32,13 @@ pipeline {
 
         stage('Generate Inventory') {
             steps {
-                sh """
-cat > sysconfig/inventory.yml <<EOF
-all:
-  hosts:
-    ${params.TARGET_HOST}:
-      ansible_host: ${params.TARGET_IP}
-EOF
-                """
+                script {
+                    def ips = params.TARGET_IPS.split(',')
+                    def hosts = ips.eachWithIndex.collect { ip, i ->
+                        "    ${params.TARGET_HOST_PREFIX}${i + 1}:\n      ansible_host: ${ip.trim()}"
+                    }.join('\n')
+                    writeFile file: 'sysconfig/inventory.yml', text: "all:\n  hosts:\n${hosts}\n"
+                }
             }
         }
 
