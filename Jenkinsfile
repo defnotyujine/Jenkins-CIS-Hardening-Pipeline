@@ -4,6 +4,7 @@ pipeline {
     parameters {
         string(name: 'TARGET_HOST', defaultValue: 'rhel_host', description: 'Alias for the target host')
         string(name: 'TARGET_IP', defaultValue: '', description: 'IP of target server')
+        choice(name: 'TAGS', choices: ['level1-server', 'level1-workstation', 'level1-server,level1-workstation'], description: 'CIS level tags to apply')
     }
 
     stages {
@@ -44,7 +45,7 @@ EOF
                     ansiblePlaybook(
                         playbook: 'playbooks/main_playbook.yml',
                         inventory: 'sysconfig/inventory.yml',
-                        extras: '--vault-password-file /tmp/vault_pass.txt'
+                        extras: '--vault-password-file /tmp/vault_pass.txt --tags "${params.TAGS}"'
                     )
                 }
             }
