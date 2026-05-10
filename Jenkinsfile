@@ -26,7 +26,7 @@ pipeline {
 
         stage('Install Roles') {
             steps {
-                sh 'ansible-galaxy role install -r requirements.yml -p playbooks/roles/'
+                sh 'ansible-galaxy role install -r requirements.yml -p playbooks/roles/ --force'
             }
         }
 
