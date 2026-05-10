@@ -37,9 +37,8 @@
           when: ansible_distribution_major_version == "10"
       when: ansible_os_family == "RedHat"
 
-    post_tasks:
-      - name: Deployment Finished
-        ansible.builtin.debug:
-          msg: "Deployment Successfully Finished"
-        tags: always
-          
+  post_tasks:
+    - name: Deployment Finished
+      ansible.builtin.debug:
+        msg: "Deployment Successfully Finished"
+      tags: always
