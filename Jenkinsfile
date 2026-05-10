@@ -34,10 +34,11 @@ pipeline {
             steps {
                 script {
                     def ips = params.TARGET_IPS.split(',')
-                    def hosts = ips.eachWithIndex.collect { ip, i ->
-                        "    ${params.TARGET_HOST_PREFIX}${i + 1}:\n      ansible_host: ${ip.trim()}"
-                    }.join('\n')
-                    writeFile file: 'sysconfig/inventory.yml', text: "all:\n  hosts:\n${hosts}\n"
+                    def hosts = ""
+                    for (int i = 0; i < ips.size(); i++) {
+                        hosts += "    ${params.TARGET_HOST_PREFIX}${i + 1}:\n      ansible_host: ${ips[i].trim()}\n"
+                    }
+                    writeFile file: 'sysconfig/inventory.yml', text: "all:\n  hosts:\n${hosts}"
                 }
             }
         }
