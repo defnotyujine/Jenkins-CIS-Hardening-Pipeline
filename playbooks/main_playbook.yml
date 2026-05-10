@@ -10,15 +10,24 @@
         - name: Apply RHEL 8 CIS Hardening
           ansible.builtin.include_role:
             name: RHEL8-CIS
+          tags:
+            - level1-server
+            - level1-workstation
           when: ansible_distribution_major_version == "8"
 
         - name: Apply RHEL 9 CIS Hardening
           ansible.builtin.include_role:
             name: RHEL9-CIS
+          tags:
+            - level1-server
+            - level1-workstation
           when: ansible_distribution_major_version == "9"
 
         - name: Apply RHEL 10 CIS Hardening
           ansible.builtin.include_role:
             name: RHEL10-CIS
+          tags:
+            - level1-server
+            - level1-workstation
           when: ansible_distribution_major_version == "10"
       when: ansible_os_family == "RedHat"
