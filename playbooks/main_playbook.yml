@@ -2,10 +2,15 @@
 
 - hosts: all
   gather_facts: true
+  become: true
+
+  pre_tasks:
+    - name: Run Preliminaries
+      ansible.builtin.include_tasks: tasks/prelims.yml
+      tags: always
 
   tasks:
     - name: Apply RHEL CIS Hardening
-      become: true
       block:
         - name: Apply RHEL 8 CIS Hardening
           ansible.builtin.include_role:
@@ -31,3 +36,10 @@
             - level1-workstation
           when: ansible_distribution_major_version == "10"
       when: ansible_os_family == "RedHat"
+
+    post_tasks:
+      - name: Deployment Finished
+        ansible.builtin.debug:
+          msg: "Deployment Successfully Finished"
+        tags: always
+          
