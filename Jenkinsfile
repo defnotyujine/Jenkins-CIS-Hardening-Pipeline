@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     parameters {
-        string(name: 'TARGET_HOST', defaultValue: 'rhel_host', description: 'Alias for the target host')
-        string(name: 'TARGET_IP', defaultValue: '', description: 'IP of target server')
+        string(name: 'TARGET_HOST_PREFIX', defaultValue: 'rhel_host', description: 'Prefix for host aliases e.g. rhel_host becomes rhel_host1, rhel_host2')
+        string(name: 'TARGET_IPS', defaultValue: '', description: 'Comma-separated list of target IPs e.g. 192.168.1.10,192.168.1.11')
         choice(name: 'TAGS', choices: ['level1-server', 'level1-workstation', 'level1-server,level1-workstation'], description: 'CIS level tags to apply')
     }
 
@@ -11,8 +11,8 @@ pipeline {
         stage('Validate Parameters') {
             steps {
                 script {
-                    if (params.TARGET_IP == '') {
-                        error('TARGET_IP is required. Please provide at least on IP.')
+                    if (params.TARGET_IPS == '') {
+                        error('TARGET_IPS is required. Please provide at least one IP.')
                     }
                 }
             }
