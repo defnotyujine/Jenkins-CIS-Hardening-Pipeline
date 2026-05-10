@@ -1,0 +1,20 @@
+---
+
+- name: Clean DNF cache
+  ansible.builtin.command:
+    cmd: dnf clean all
+  changed_when: true
+
+- name: Update all packages
+  ansible.builtin.dnf:
+    name: '*'
+    state: latest
+    update_cache: true
+
+- name: Remove unused packages
+  ansible.builtin.dnf:
+    autoremove: true
+
+- name: Set timezone to UTC
+  community.general.timezone:
+    name: UTC
