@@ -1,0 +1,31 @@
+---
+
+roles:
+  - name: RHEL8-CIS
+    src: https://github.com/ansible-lockdown/RHEL8-CIS.git
+    scm: git
+    version: 4.0.1
+
+  - name: RHEL9-CIS
+    src: https://github.com/ansible-lockdown/RHEL9-CIS.git
+    scm: git
+    version: devel
+
+  - name: RHEL10-CIS
+    src: https://github.com/ansible-lockdown/RHEL10-CIS.git
+    scm: git
+    version: 1.0.2
+
+collections:
+  - name: community.general
+    source: https://github.com/ansible-collections/community.general
+    type: git
+    version: 8.6.0
+
+  - name: community.crypto
+    source: https://github.com/ansible-collections/community.crypto
+    type: git
+
+  - name: ansible.posix
+    source: https://github.com/ansible-collections/ansible.posix
+    type: git
