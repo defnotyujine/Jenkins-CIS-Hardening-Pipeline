@@ -41,11 +41,11 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                sh '''
+                sh """
                     cd terraform/
                     terraform init
                     terraform apply -auto-approve -var="vm_count=${params.VM_COUNT}"
-                '''
+                """
             }
         }
 
