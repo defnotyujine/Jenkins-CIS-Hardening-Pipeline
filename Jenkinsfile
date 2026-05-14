@@ -42,7 +42,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 sh '''
-                    cd Terraform-KVM/
+                    cd terraform/
                     terraform init
                     terraform apply -auto-approve
                 '''
