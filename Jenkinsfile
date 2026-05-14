@@ -11,7 +11,7 @@ pipeline {
         stage('Validate Parameters') {
             steps {
                 script {
-                    if (params.TARGET_IPS == '') {
+                    if (params.VM_COUNT == '') {
                         error('VM_COUNT is required.')
                     }
                 }
@@ -21,7 +21,7 @@ pipeline {
         stage('Checkout Terraform') {
             steps {
                 dir('terraform') {
-                    git branch: 'jenkins-terraform-integration'
+                    git branch: 'jenkins-terraform-integration',
                         url: 'https://github.com/defnotyujine/Terraform-KVM.git'
                 }
             }
@@ -43,7 +43,7 @@ pipeline {
             steps {
                 sh '''
                     cd Terraform-KVM/
-                    terraform init/
+                    terraform init
                     terraform apply -auto-approve
                 '''
             }
@@ -98,8 +98,8 @@ pipeline {
         }
         failure {
             sh '''
-                cd terraform /
-                terraform destory -auto-approve
+                cd terraform/
+                terraform destroy -auto-approve
             '''
         }
     }
