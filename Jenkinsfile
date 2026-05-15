@@ -113,11 +113,5 @@ pipeline {
         always {
             sh 'rm -f /tmp/vault_pass.txt'
         }
-        failure {
-            sh '''
-                cd terraform/
-                terraform destroy -auto-approve
-            '''
-        }
     }
 }
