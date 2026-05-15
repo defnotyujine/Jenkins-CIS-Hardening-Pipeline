@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     parameters {
+        booleanParam(name: 'CLEAN_START', defaultValue: false, description: 'Check this to run terraform destroy before provisioning')
         string(name: 'TARGET_HOST_PREFIX', defaultValue: 'rhel_host', description: 'Prefix for host aliases e.g. rhel_host becomes rhel_host1, rhel_host2')
         string(name: 'VM_COUNT', defaultValue: '2', description: 'Number of VMs to provision')
         choice(name: 'TAGS', choices: ['', 'level1-server', 'level1-workstation', 'level1-server,level1-workstation'], description: 'CIS level tags to apply (leave blank to run all tasks)')
@@ -14,6 +15,22 @@ pipeline {
                     if (params.VM_COUNT == '') {
                         error('VM_COUNT is required.')
                     }
+                }
+            }
+        }
+
+        stage('Terraform Cleanup') {
+            when {
+                expression { params.CLEAN_START }
+            }
+            steps {
+                script {
+                    sh """
+                        cd terraform/
+                        terraform init
+                        # We use -var here to match your apply stage and avoid prompt errors
+                        terraform destroy -auto-approve -var="vm_count=${params.VM_COUNT}"
+                    """
                 }
             }
         }
