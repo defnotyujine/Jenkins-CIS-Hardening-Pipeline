@@ -28,8 +28,7 @@ pipeline {
                     sh """
                         cd terraform/
                         terraform init
-                        # We use -var here to match your apply stage and avoid prompt errors
-                        terraform destroy -auto-approve -var="vm_count=${params.VM_COUNT}"
+                        terraform destroy -auto-approve
                     """
                 }
             }
